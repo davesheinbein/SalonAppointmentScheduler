@@ -1,22 +1,26 @@
 # Salon Appointment Scheduler
 
-This project sets up a database for managing salon appointments. It includes creating a PostgreSQL database, setting up tables with required keys and relationships, and initializing data for services offered by the salon.
+This project creates a PostgreSQL database for managing salon appointments, setting up tables with keys and relationships, and initializing services data for customer appointments. 
+
+This project is part of the
+[FreeCodeCamp Relational Database Certification](https://www.freecodecamp.org/learn/relational-database).
+[Salon appointment scheduler project](https://www.freecodecamp.org/learn/relational-database/build-a-salon-appointment-scheduler-project/build-a-salon-appointment-scheduler).
 
 ## Table of Contents
-1. Create Database and Connect
-2. Create Tables
-3. Initialize Services Data
-4. Primary and Foreign Key Constraints
-5. (Optional) Update Services and Customers
-6. Export Database to SQL File
-7. Create and Run Shell Script
-8. Project Flowchart
-9. Entity-Relationship Diagram (ERD)
+1. [Create Database and Connect](#1-create-database-and-connect): Set up and connect to the database.
+2. [Create Tables](#2-create-tables): Define tables for `appointments`, `customers`, and `services`.
+3. [Initialize Services Data](#3-initialize-services-data): Add starting data to `services`.
+4. [Primary and Foreign Key Constraints](#4-primary-and-foreign-key-constraints): Ensure data integrity with relationships.
+5. [(Optional) Update Services and Customers](#5-optional-update-services-and-customers): Modify data for services and customers.
+6. [Export Database to SQL File](#6-export-database-to-sql-file): Backup database with pg_dump.
+7. [Create and Run Shell Script](#7-create-and-run-shell-script): Automate database setup.
+8. [Project Flowchart](#8-project-flowchart): Overview of setup and workflow.
+9. [Entity-Relationship Diagram (ERD)](#9-entity-relationship-diagram-erd): Visualize table relationships.
 
 ---
 
 ### 1. Create Database and Connect
-To create and connect to the database:
+To create and connect to the PostgreSQL database:
 ```sql
 psql --username=freecodecamp --dbname=postgres;
 
@@ -26,7 +30,7 @@ CREATE DATABASE salon;
 ```
 
 ### 2. Create Tables
-Create the necessary tables for appointments, customers, and services:
+Define tables for `appointments`, `customers`, and `services`:
 ```sql
 CREATE TABLE appointments (
     appointment_id SERIAL PRIMARY KEY,
@@ -48,7 +52,7 @@ CREATE TABLE services (
 ```
 
 ### 3. Initialize Services Data
-Insert initial data into the `services` table:
+Insert initial values into the `services` table:
 ```sql
 INSERT INTO services VALUES
 (1, 'cut'), (2, 'color'), (3, 'perm'), 
@@ -56,37 +60,37 @@ INSERT INTO services VALUES
 ```
 
 ### 4. Primary and Foreign Key Constraints
-Assign primary and foreign key constraints to ensure data integrity:
+Assign primary and foreign key constraints for data integrity:
 ```sql
 ALTER TABLE appointments ADD FOREIGN KEY (customer_id) REFERENCES customers (customer_id);
 ALTER TABLE appointments ADD FOREIGN KEY (service_id) REFERENCES services (service_id);
 ```
 
 ### 5. (Optional) Update Services and Customers
-To update existing records in the `services` or `customers` tables, you can use the `UPDATE` statement as needed.
+You can update records in `services` and `customers` with the `UPDATE` command.
 
-#### Updating Services
-To change the name of a service, use:
+#### Update Services
+To rename a service:
 ```sql
 UPDATE services
 SET name = 'new_service_name'
 WHERE service_id = service_id_value;
 ```
-For example, to change 'cut' to 'haircut':
+Example:
 ```sql
 UPDATE services
 SET name = 'haircut'
 WHERE service_id = 1;
 ```
 
-#### Updating Customers
-To update a customer's details, such as their name or phone number, use:
+#### Update Customers
+To update customer details:
 ```sql
 UPDATE customers
 SET name = 'new_name', phone = 'new_phone_number'
 WHERE customer_id = customer_id_value;
 ```
-For example, to change a customer's name and phone number:
+Example:
 ```sql
 UPDATE customers
 SET name = 'Jane Doe', phone = '123-456-7890'
@@ -94,29 +98,25 @@ WHERE customer_id = 1;
 ```
 
 ### 6. Export Database to SQL File
-Export the database structure and data to an SQL file:
+Export database schema and data:
 ```bash
 pg_dump -cC --inserts -U freecodecamp salon > salon.sql
 ```
 
 ### 7. Create and Run Shell Script
-1. Create a shell script for managing the database:
+Automate database management:
+1. Create a shell script:
    ```bash
    touch salon.sh
    chmod +x salon.sh
    ```
-2. Run the shell script:
+2. Run the script:
    ```bash
    ./salon.sh
    ```
 
----
-
-This setup establishes a PostgreSQL database for scheduling and managing salon appointments, with initial data for services. You can easily update the services and customer records using SQL commands as demonstrated above, if needed.
-
 ### 8. Project Flowchart
-
-The flowchart illustrates the main steps for setting up and managing the Salon Appointment Scheduler database:
+The flowchart shows the main steps for setting up the database.
 
 ```plaintext
 +---------------------------+
@@ -191,13 +191,13 @@ The flowchart illustrates the main steps for setting up and managing the Salon A
 
 ### 9. Entity-Relationship Diagram (ERD)
 
-The ERD below shows the relationships and structure of the `appointments`, `customers`, and `services` tables.
+The ERD displays relationships between the `appointments`, `customers`, and `services` tables.
 
 1. **Appointments Table**
-   - **appointment_id** (Primary Key): Unique identifier for each appointment.
-   - **customer_id** (Foreign Key): References `customer_id` in `customers`, linking the appointment to a customer.
-   - **service_id** (Foreign Key): References `service_id` in `services`, linking the appointment to a service.
-   - **time**: Scheduled time of the appointment.
+   - **appointment_id** (Primary Key): Identifier for each appointment.
+   - **customer_id** (Foreign Key): References `customer_id` in `customers`, linking an appointment to a customer.
+   - **service_id** (Foreign Key): References `service_id` in `services`, linking an appointment to a service.
+   - **time**: Time of the appointment.
 
 2. **Customers Table**
    - **customer_id** (Primary Key): Unique identifier for each customer.
@@ -205,11 +205,10 @@ The ERD below shows the relationships and structure of the `appointments`, `cust
    - **phone**: Customer’s phone number (unique and not null).
 
 3. **Services Table**
-   - **service_id** (Primary Key): Unique identifier for each service.
-   - **name**: Name of the service offered (e.g., cut, color).
+   - **service_id** (Primary Key): Identifier for each service.
+   - **name**: Name of the service (e.g., cut, color).
 
 ERD:
-
 ```plaintext
 +--------------+      +--------------+       +--------------+
 | CUSTOMERS    |      | APPOINTMENTS |       | SERVICES     |
@@ -220,7 +219,3 @@ ERD:
 +--------------+      | time         |       +--------------+
                       +--------------+
 ```
-
-In this ERD:
-- Each appointment references a `customer` and a `service` via foreign key constraints, ensuring data integrity.
-- The `appointments` table links `customers` with `services`, allowing many appointments per customer and service as needed.
