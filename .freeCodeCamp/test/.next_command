@@ -65,3 +65,4 @@ psql -U freecodecamp < salon.sql
 psql -U freecodecamp < salon.sql
 chmod +x salon.sh
 ./salon.sh
+pg_dump -cC --inserts -U freecodecamp salon > salon.sql
