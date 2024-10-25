@@ -10,6 +10,8 @@ This project sets up a database for managing salon appointments. It includes cre
 5. (Optional) Update Services and Customers
 6. Export Database to SQL File
 7. Create and Run Shell Script
+8. Project Flowchart
+9. Entity-Relationship Diagram (ERD)
 
 ---
 
@@ -111,3 +113,114 @@ pg_dump -cC --inserts -U freecodecamp salon > salon.sql
 ---
 
 This setup establishes a PostgreSQL database for scheduling and managing salon appointments, with initial data for services. You can easily update the services and customer records using SQL commands as demonstrated above, if needed.
+
+### 8. Project Flowchart
+
+The flowchart illustrates the main steps for setting up and managing the Salon Appointment Scheduler database:
+
+```plaintext
++---------------------------+
+|       Start Process       |
++---------------------------+
+             |
+             v
++---------------------------+
+| Connect to PostgreSQL     |
+| Command: psql --username=freecodecamp --dbname=postgres |
++---------------------------+
+             |
+             v
++---------------------------+
+| Create 'salon' Database   |
+| Command: CREATE DATABASE salon; |
++---------------------------+
+             |
+             v
++---------------------------+
+| Connect to 'salon' Database |
+| Command: \c salon           |
++---------------------------+
+             |
+             v
++---------------------------+
+| Define Tables for         |
+| appointments, customers,  |
+| and services              |
++---------------------------+
+             |
+             v
++---------------------------+
+| Insert Initial Data       |
+| into Services Table       |
+| Command: INSERT INTO services VALUES ... |
++---------------------------+
+             |
+             v
++---------------------------+
+| Set Primary & Foreign     |
+| Key Constraints           |
+| Command: ALTER TABLE appointments ... |
++---------------------------+
+             |
+             v
++---------------------------+
+| (Optional) Update Services|
+| and Customer Records      |
+| Command: UPDATE services ... or customers ... |
++---------------------------+
+             |
+             v
++---------------------------+
+| Export Database to SQL    |
+| Command: pg_dump -cC ...  |
++---------------------------+
+             |
+             v
++---------------------------+
+| Create and Run Shell Script |
+| Command: touch salon.sh; chmod +x salon.sh; ./salon.sh |
++---------------------------+
+             |
+             v
++---------------------------+
+|        End Process        |
++---------------------------+
+```
+
+---
+
+### 9. Entity-Relationship Diagram (ERD)
+
+The ERD below shows the relationships and structure of the `appointments`, `customers`, and `services` tables.
+
+1. **Appointments Table**
+   - **appointment_id** (Primary Key): Unique identifier for each appointment.
+   - **customer_id** (Foreign Key): References `customer_id` in `customers`, linking the appointment to a customer.
+   - **service_id** (Foreign Key): References `service_id` in `services`, linking the appointment to a service.
+   - **time**: Scheduled time of the appointment.
+
+2. **Customers Table**
+   - **customer_id** (Primary Key): Unique identifier for each customer.
+   - **name**: Customer’s name.
+   - **phone**: Customer’s phone number (unique and not null).
+
+3. **Services Table**
+   - **service_id** (Primary Key): Unique identifier for each service.
+   - **name**: Name of the service offered (e.g., cut, color).
+
+ERD:
+
+```plaintext
++--------------+      +--------------+       +--------------+
+| CUSTOMERS    |      | APPOINTMENTS |       | SERVICES     |
++--------------+      +--------------+       +--------------+
+| customer_id  |<-----| customer_id  |       | service_id   |
+| name         |      | appointment_id       | name         |
+| phone        |      | service_id   |------>|              |
++--------------+      | time         |       +--------------+
+                      +--------------+
+```
+
+In this ERD:
+- Each appointment references a `customer` and a `service` via foreign key constraints, ensuring data integrity.
+- The `appointments` table links `customers` with `services`, allowing many appointments per customer and service as needed.
