@@ -60,6 +60,16 @@ INSERT INTO services VALUES
 ```
 
 ### 4. Primary and Foreign Key Constraints
+
+- A primary key is a unique identifier for a record in a
+  table.
+  - It ensures that no two rows have the same value for the
+    primary key column(s).
+- A foreign key is a field (or collection of fields) in one
+  table that uniquely identifies a row of another table or
+  the same table.
+  - It establishes a relationship between the two tables.
+
 Assign primary and foreign key constraints for data integrity:
 ```sql
 ALTER TABLE appointments ADD FOREIGN KEY (customer_id) REFERENCES customers (customer_id);
