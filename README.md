@@ -3,12 +3,13 @@
 This project sets up a database for managing salon appointments. It includes creating a PostgreSQL database, setting up tables with required keys and relationships, and initializing data for services offered by the salon.
 
 ## Table of Contents
-1. [Create Database and Connect](#create-database-and-connect)
-2. [Create Tables](#create-tables)
-3. [Initialize Services Data](#initialize-services-data)
-4. [Primary and Foreign Key Constraints](#primary-and-foreign-key-constraints)
-5. [Export Database to SQL File](#export-database-to-sql-file)
-6. [Create and Run Shell Script](#create-and-run-shell-script)
+1. Create Database and Connect
+2. Create Tables
+3. Initialize Services Data
+4. Primary and Foreign Key Constraints
+5. (Optional) Update Services and Customers
+6. Export Database to SQL File
+7. Create and Run Shell Script
 
 ---
 
@@ -59,13 +60,44 @@ ALTER TABLE appointments ADD FOREIGN KEY (customer_id) REFERENCES customers (cus
 ALTER TABLE appointments ADD FOREIGN KEY (service_id) REFERENCES services (service_id);
 ```
 
-### 5. Export Database to SQL File
+### 5. (Optional) Update Services and Customers
+To update existing records in the `services` or `customers` tables, you can use the `UPDATE` statement as needed.
+
+#### Updating Services
+To change the name of a service, use:
+```sql
+UPDATE services
+SET name = 'new_service_name'
+WHERE service_id = service_id_value;
+```
+For example, to change 'cut' to 'haircut':
+```sql
+UPDATE services
+SET name = 'haircut'
+WHERE service_id = 1;
+```
+
+#### Updating Customers
+To update a customer's details, such as their name or phone number, use:
+```sql
+UPDATE customers
+SET name = 'new_name', phone = 'new_phone_number'
+WHERE customer_id = customer_id_value;
+```
+For example, to change a customer's name and phone number:
+```sql
+UPDATE customers
+SET name = 'Jane Doe', phone = '123-456-7890'
+WHERE customer_id = 1;
+```
+
+### 6. Export Database to SQL File
 Export the database structure and data to an SQL file:
 ```bash
 pg_dump -cC --inserts -U freecodecamp salon > salon.sql
 ```
 
-### 6. Create and Run Shell Script
+### 7. Create and Run Shell Script
 1. Create a shell script for managing the database:
    ```bash
    touch salon.sh
@@ -76,6 +108,6 @@ pg_dump -cC --inserts -U freecodecamp salon > salon.sql
    ./salon.sh
    ```
 
---- 
+---
 
-This setup establishes a PostgreSQL database for scheduling and managing salon appointments with initial data for services.
+This setup establishes a PostgreSQL database for scheduling and managing salon appointments, with initial data for services. You can easily update the services and customer records using SQL commands as demonstrated above, if needed.
